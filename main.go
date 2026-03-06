@@ -11,6 +11,7 @@ import (
 	"ssh-portfolio/tui"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/bubbletea"
@@ -61,7 +62,9 @@ func main() {
 }
 
 func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
-	m := tui.NewModel()
+	// Create a lipgloss renderer from the SSH session output to detect color support
+	renderer := lipgloss.NewRenderer(s)
+	m := tui.NewModelWithRenderer(renderer)
 	pty, _, _ := s.Pty()
 	return m, []tea.ProgramOption{
 		tea.WithAltScreen(),
