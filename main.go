@@ -62,10 +62,15 @@ func main() {
 }
 
 func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
-	// Create a lipgloss renderer from the SSH session output to detect color support
-	renderer := lipgloss.NewRenderer(s)
+	pty, _, active := s.Pty()
+	if !active {
+		m := tui.NewModel()
+		return m, []tea.ProgramOption{tea.WithAltScreen()}
+	}
+
+	renderer := lipgloss.NewRenderer(s, termenv.WithEnviron([]string{"TERM=" + pty.Term}))
 	m := tui.NewModelWithRenderer(renderer)
-	pty, _, _ := s.Pty()
+
 	return m, []tea.ProgramOption{
 		tea.WithAltScreen(),
 		tea.WithInput(s),
