@@ -54,17 +54,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "ctrl+c":
 			return m, tea.Quit
-		case "left", "h":
+		case "left", "h", "\x1b[D":
 			if m.activeTab > aboutTab {
 				m.activeTab--
 			}
-		case "right", "l":
+		case "right", "l", "\x1b[C":
 			if m.activeTab < linksTab {
 				m.activeTab++
 			}
-		case "up", "k":
+		case "up", "k", "\x1b[A":
 			m.currentTheme = (m.currentTheme + 1) % len(themes)
-		case "down", "j":
+		case "down", "j", "\x1b[B":
 			m.currentTheme = (m.currentTheme - 1 + len(themes)) % len(themes)
 		}
 	}
