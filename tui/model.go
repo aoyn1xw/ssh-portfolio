@@ -54,17 +54,36 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "ctrl+c":
 			return m, tea.Quit
-		case "left", "h", "\x1b[D":
+		}
+
+		switch msg.Type {
+		case tea.KeyLeft:
 			if m.activeTab > aboutTab {
 				m.activeTab--
 			}
-		case "right", "l", "\x1b[C":
+		case tea.KeyRight:
 			if m.activeTab < linksTab {
 				m.activeTab++
 			}
-		case "up", "k", "\x1b[A":
+		case tea.KeyUp:
 			m.currentTheme = (m.currentTheme + 1) % len(themes)
-		case "down", "j", "\x1b[B":
+		case tea.KeyDown:
+			m.currentTheme = (m.currentTheme - 1 + len(themes)) % len(themes)
+		}
+
+		// Handle vim-style navigation using string matching
+		switch msg.String() {
+		case "h":
+			if m.activeTab > aboutTab {
+				m.activeTab--
+			}
+		case "l":
+			if m.activeTab < linksTab {
+				m.activeTab++
+			}
+		case "k":
+			m.currentTheme = (m.currentTheme + 1) % len(themes)
+		case "j":
 			m.currentTheme = (m.currentTheme - 1 + len(themes)) % len(themes)
 		}
 	}
