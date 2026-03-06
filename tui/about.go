@@ -4,12 +4,12 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-func renderAbout(width, height int, t theme) string {
-	nameStyle := lipgloss.NewStyle().
+func renderAbout(width, height int, t theme, r *lipgloss.Renderer) string {
+	nameStyle := r.NewStyle().
 		Foreground(lipgloss.Color(t.Accent)).
 		Bold(true)
 
-	textStyle := lipgloss.NewStyle().
+	textStyle := r.NewStyle().
 		Foreground(lipgloss.Color("#FFFFFF")).
 		Width(38)
 
@@ -22,7 +22,7 @@ and building cool stuff on the internet.`
 
 	bio := textStyle.Render(bioText)
 
-	artStyle := lipgloss.NewStyle().
+	artStyle := r.NewStyle().
 		Foreground(lipgloss.Color(t.Accent))
 
 	art := artStyle.Render(`
@@ -43,7 +43,7 @@ and building cool stuff on the internet.`
 
 	combined := lipgloss.JoinHorizontal(lipgloss.Center, bio, "    ", art)
 
-	return lipgloss.NewStyle().
+	return r.NewStyle().
 		Width(width).
 		Height(height).
 		Align(lipgloss.Center, lipgloss.Center).

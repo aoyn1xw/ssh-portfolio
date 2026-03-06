@@ -9,21 +9,21 @@ type link struct {
 	value string
 }
 
-func renderLinks(width, height int, t theme) string {
+func renderLinks(width, height int, t theme, r *lipgloss.Renderer) string {
 	links := []link{
 		{label: "GitHub", value: "github.com/aoyn1xw"},
 		{label: "Instagram", value: "instagram.com/ayon1xw"},
 		{label: "Discord", value: "ayon1xw"},
 	}
 
-	labelStyle := lipgloss.NewStyle().
+	labelStyle := r.NewStyle().
 		Foreground(lipgloss.Color(t.Accent)).
 		Bold(true)
 
-	valueStyle := lipgloss.NewStyle().
+	valueStyle := r.NewStyle().
 		Foreground(lipgloss.Color("#AAAAAA"))
 
-	cardStyle := lipgloss.NewStyle().
+	cardStyle := r.NewStyle().
 		Width(30).
 		PaddingLeft(2)
 
@@ -41,7 +41,7 @@ func renderLinks(width, height int, t theme) string {
 
 	grid := lipgloss.JoinVertical(lipgloss.Left, row1, row2)
 
-	artStyle := lipgloss.NewStyle().
+	artStyle := r.NewStyle().
 		Foreground(lipgloss.Color(t.Accent))
 
 	art := artStyle.Render(`
@@ -61,7 +61,7 @@ func renderLinks(width, height int, t theme) string {
 
 	content := lipgloss.JoinVertical(lipgloss.Center, art, "", grid)
 
-	return lipgloss.NewStyle().
+	return r.NewStyle().
 		Width(width).
 		Height(height).
 		Align(lipgloss.Center, lipgloss.Center).

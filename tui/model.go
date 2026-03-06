@@ -31,12 +31,22 @@ type Model struct {
 	width        int
 	height       int
 	currentTheme int
+	renderer     *lipgloss.Renderer
 }
 
 func NewModel() Model {
 	return Model{
 		activeTab:    aboutTab,
 		currentTheme: 0,
+		renderer:     lipgloss.DefaultRenderer(),
+	}
+}
+
+func NewModelWithRenderer(r *lipgloss.Renderer) Model {
+	return Model{
+		activeTab:    aboutTab,
+		currentTheme: 0,
+		renderer:     r,
 	}
 }
 
@@ -101,12 +111,12 @@ func (m Model) View() string {
 	var content string
 	switch m.activeTab {
 	case aboutTab:
-		content = renderAbout(m.width, contentHeight, themes[m.currentTheme])
+		content = renderAbout(m.width, contentHeight, themes[m.currentTheme], m.renderer)
 	case linksTab:
-		content = renderLinks(m.width, contentHeight, themes[m.currentTheme])
+		content = renderLinks(m.width, contentHeight, themes[m.currentTheme], m.renderer)
 	}
 
-	contentStyle := lipgloss.NewStyle().
+	contentStyle := m.renderer.NewStyle().
 		Height(contentHeight).
 		Width(m.width)
 
@@ -116,11 +126,11 @@ func (m Model) View() string {
 func (m Model) renderHeader() string {
 	theme := themes[m.currentTheme]
 
-	activeStyle := lipgloss.NewStyle().
+	activeStyle := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Accent)).
 		Bold(true)
 
-	inactiveStyle := lipgloss.NewStyle().
+	inactiveStyle := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Dim))
 
 	var about, links string
@@ -132,7 +142,7 @@ func (m Model) renderHeader() string {
 		links = activeStyle.Render("Links")
 	}
 
-	version := lipgloss.NewStyle().
+	version := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Accent)).
 		Bold(true).
 		Render("v0.0.1")
@@ -143,9 +153,9 @@ func (m Model) renderHeader() string {
 	if spacerWidth < 0 {
 		spacerWidth = 0
 	}
-	spacer := lipgloss.NewStyle().Width(spacerWidth).Render("")
+	spacer := m.renderer.NewStyle().Width(spacerWidth).Render("")
 
-	line := lipgloss.NewStyle().
+	line := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Accent)).
 		Width(m.width).
 		Render("─────────────────────────────────────────────────────────────────────────────────")
@@ -156,11 +166,11 @@ func (m Model) renderHeader() string {
 func (m Model) renderFooter() string {
 	theme := themes[m.currentTheme]
 
-	style := lipgloss.NewStyle().
+	style := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Dim))
 
 	left := style.Render("← → navigate")
-	mid := lipgloss.NewStyle().
+	mid := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Dim)).
 		Render("↑ ↓ change color")
 	right := style.Render("q quit")
@@ -172,8 +182,8 @@ func (m Model) renderFooter() string {
 	if totalPadding < 0 {
 		totalPadding = 0
 	}
-	leftPad := lipgloss.NewStyle().Width(totalPadding / 2).Render("")
-	rightPad := lipgloss.NewStyle().Width(totalPadding - totalPadding/2).Render("")
+	leftPad := m.renderer.NewStyle().Width(totalPadding / 2).Render("")
+	rightPad := m.renderer.NewStyle().Width(totalPadding - totalPadding/2).Render("")
 
 	return left + leftPad + mid + rightPad + right
 }
