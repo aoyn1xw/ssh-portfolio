@@ -86,9 +86,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.activeTab < linksTab {
 				m.activeTab++
 			}
-		case "[":
+		case "j":
 			m.currentTheme = (m.currentTheme - 1 + len(themes)) % len(themes)
-		case "]":
+		case "k":
 			m.currentTheme = (m.currentTheme + 1) % len(themes)
 		}
 	}
@@ -169,10 +169,10 @@ func (m Model) renderFooter() string {
 	style := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Dim))
 
-	left := style.Render("← → navigate")
+	left := style.Render("← → / h l  navigate")
 	mid := m.renderer.NewStyle().
 		Foreground(lipgloss.Color(theme.Dim)).
-		Render("↑ ↓ change color")
+		Render("j k  change color")
 	right := style.Render("q quit")
 
 	leftWidth := lipgloss.Width(left)
