@@ -1,46 +1,33 @@
 # ssh-portfolio
 
-A terminal portfolio you can visit over SSH — built with [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Wish](https://github.com/charmbracelet/wish).
+A terminal-based portfolio accessible via SSH, built with Go and Charm.sh.
 
+## Connect
+```bash
+ssh hi.ayon1xw.me -p 2222
 ```
-ssh <host> -p 2222
-```
+
+## Built With
+
+- [Wish](https://github.com/charmbracelet/wish) — SSH server framework
+- [Bubbletea](https://github.com/charmbracelet/bubbletea) — Terminal UI framework
+- [Lipgloss](https://github.com/charmbracelet/lipgloss) — Terminal styling
 
 ## Features
 
-- About me page with bio
-- Links page (GitHub, Instagram, Discord)
-- 5 color themes — switch with `↑ ↓`
-- Tab navigation with `← →`
+- About me page
+- Links / contact page
+- Theme switcher (press `t`)
+- Keyboard navigation (`← →`)
 
-## Run locally
-
+## Running Locally
 ```bash
-go run main.go --local
+git clone https://github.com/aoyn1xw/ssh-portfolio.git
+cd ssh-portfolio
+go run main.go
 ```
 
-## Deploy
-
+Then in another terminal:
 ```bash
-# Generate a host key (only needed once)
-mkdir -p .ssh
-ssh-keygen -t ed25519 -f .ssh/id_ed25519 -N ""
-
-# Build and run
-go build -o ssh-portfolio
-./ssh-portfolio
+ssh localhost -p 2222
 ```
-
-Server listens on port `2222` by default.
-
-## Keybindings
-
-| Key | Action |
-|-----|--------|
-| `← →` | Switch tabs |
-| `↑ ↓` | Change color theme |
-| `q` | Quit |
-
-## License
-
-[MIT](LICENSE)
