@@ -65,13 +65,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.activeTab < linksTab {
 				m.activeTab++
 			}
-		case tea.KeyUp:
-			m.currentTheme = (m.currentTheme + 1) % len(themes)
-		case tea.KeyDown:
-			m.currentTheme = (m.currentTheme - 1 + len(themes)) % len(themes)
 		}
 
-		// Handle vim-style navigation using string matching
 		switch msg.String() {
 		case "h":
 			if m.activeTab > aboutTab {
@@ -81,10 +76,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.activeTab < linksTab {
 				m.activeTab++
 			}
-		case "k":
-			m.currentTheme = (m.currentTheme + 1) % len(themes)
-		case "j":
+		case "[":
 			m.currentTheme = (m.currentTheme - 1 + len(themes)) % len(themes)
+		case "]":
+			m.currentTheme = (m.currentTheme + 1) % len(themes)
 		}
 	}
 	return m, nil
