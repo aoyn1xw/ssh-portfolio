@@ -62,5 +62,11 @@ func main() {
 
 func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	m := tui.NewModel()
-	return m, []tea.ProgramOption{tea.WithAltScreen()}
+	pty, _, _ := s.Pty()
+	return m, []tea.ProgramOption{
+		tea.WithAltScreen(),
+		tea.WithInput(s),
+		tea.WithOutput(s),
+		tea.WithEnvironment([]string{"TERM=" + pty.Term}),
+	}
 }
