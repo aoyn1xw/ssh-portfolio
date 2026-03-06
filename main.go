@@ -15,7 +15,6 @@ import (
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/bubbletea"
-	"github.com/muesli/termenv"
 )
 
 const (
@@ -69,7 +68,7 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return m, []tea.ProgramOption{tea.WithAltScreen()}
 	}
 
-	renderer := lipgloss.NewRenderer(s, termenv.WithEnviron([]string{"TERM=" + pty.Term}))
+	renderer := lipgloss.NewRenderer(s)
 	m := tui.NewModelWithRenderer(renderer)
 
 	return m, []tea.ProgramOption{
