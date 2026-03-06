@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>hi.ayon1xw.me</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #888;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #111;
+      border: 1px solid #222;
+      padding: 0.85rem 1.2rem;
+      border-radius: 6px;
+    }
+
+    .command {
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .copy {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #444;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+      padding: 0;
+    }
+
+    .copy:hover { color: #888; }
+    .copy.copied { color: #7c5cbf; }
+
+    .hint {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <span class="command">ssh hi.ayon1xw.me</span>
+    <button class="copy" id="copyBtn" onclick="copy()" title="Copy">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+      </svg>
+    </button>
+  </div>
+
+  <p class="hint">This site is a terminal interface. Connect via SSH to explore.</p>
+
+  <script>
+    function copy() {
+      navigator.clipboard.writeText('ssh hi.ayon1xw.me');
+      const btn = document.getElementById('copyBtn');
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 2000);
+    }
+  </script>
+
+</body>
+</html>

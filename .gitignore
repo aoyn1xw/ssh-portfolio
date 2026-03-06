@@ -1,0 +1,10 @@
+# SSH host keys — never commit these
+.ssh/
+
+# Build output
+ssh-portfolio
+ssh-portfolio.exe
+
+# Go build cache
+*.test
+*.out
